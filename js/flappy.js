@@ -119,7 +119,7 @@ function sobreposicao(elemA, elemB) {
     const horizontal = a.left + a.width >= b.left
         && b.left + b.width >= a.left
     const vertical = a.top + a.height >= b.top
-        && b.top + b.width >= a.top
+        && b.top + b.height >= a.top
     
     return horizontal && vertical
 }
@@ -131,6 +131,8 @@ function colidiu(passaro, barreiras) {
         if(!colidiu) {
             const superior = par.superior.elem
             const inferior = par.inferior.elem
+
+            console.log(inferior.getBoundingClientRect())
 
             colidiu = sobreposicao(passaro.elem, superior
                 || sobreposicao(passaro.elem, inferior))
