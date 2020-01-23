@@ -1,5 +1,3 @@
-const screen = document.querySelector('[wm-flappy]')
-
 function criarElem(tagName, className) {
     const elem = document.createElement(tagName)
     elem.classList.add(className)
@@ -105,13 +103,38 @@ function Passaro(alturaJogo) {
     this.setY(alturaJogo / 2)
 }
 
-const barreiras = new Barreiras(500, 800, 250, 400)
-const passaro = new Passaro(700)
+function Progresso() {
+    this.elem = criarElem('span', 'progresso')
+    this.atualizaPontos = pontos => {
+        this.elem.innerHTML = pontos
+    }
 
-screen.appendChild(passaro.elem)
-barreiras.pares.forEach(par => screen.appendChild(par.elem))
+    this.atualizaPontos(0)
+}
 
-setInterval(() => {
-    barreiras.animar()
-    passaro.animar()
-}, 20)
+function Game() {
+    let pontos = 0
+
+    const screen = document.querySelector('[wm-flappy]')
+    const altura = screen.clientHeight
+    const largura = screen.clientWidth
+
+    const progresso = new Progresso()
+    const barreiras = new Barreiras(altura, largura, 200, 400, () => {
+        progresso.atualizaPontos(++pontos)
+    })
+    const passaro = new Passaro(altura)
+
+    screen.append(progresso.elem)
+    screen.append(passaro.elem)
+    barreiras.pares.forEach(par => screen.appendChild(par.elem))
+
+    this.start = () => {
+        const timer = setInterval(() => {
+            barreiras.animar()
+            passaro.animar()
+        }, 20)
+    }
+}
+
+new Game().start()
