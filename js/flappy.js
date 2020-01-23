@@ -113,8 +113,8 @@ function Progresso() {
 }
 
 function sobreposicao(elemA, elemB) {
-    const a = elemA.getBoundingClientReact()
-    const b = elemB.getBoundingClientReact()
+    const a = elemA.getBoundingClientRect()
+    const b = elemB.getBoundingClientRect()
 
     const horizontal = a.left + a.width >= b.left
         && b.left + b.width >= a.left
