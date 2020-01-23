@@ -18,7 +18,6 @@ div[wm-flappy] {
 }
 
 .passaro {
-    bottom: 50%;
     left: calc(50% - 30px);
     position: absolute;
     width: 60px;
