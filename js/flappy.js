@@ -47,5 +47,39 @@ function ParBarreiras(altura, abertura, x) {
     this.setX(x)
 }
 
-const b = new ParBarreiras(500, 200, 600)
-screen.appendChild(b.elem)
+// const b = new ParBarreiras(500, 200, 600)
+// screen.appendChild(b.elem)
+
+function Barreiras(altura, largura, abertura, espaco, notificarPonto) {
+    this.pares = [
+        new ParBarreiras(altura, abertura, largura),
+        new ParBarreiras(altura, abertura, largura + espaco),
+        new ParBarreiras(altura, abertura, largura + espaco * 2),
+        new ParBarreiras(altura, abertura, largura + espaco * 3)
+    ]
+
+    const deslocamento = 3
+
+    this.animar = () => {
+        this.pares.forEach(par => {
+            par.setX(par.getX() - deslocamento)
+
+            if (par.getX() < -par.getLargura()) {
+                par.setX(par.getX() + espaco * this.pares.length)
+                par.sortearAbertura()
+            }
+
+            const meio = largura / 2
+            const cruzouMeio = par.getX() + deslocamento >= meio 
+                && par.getX() < meio
+            cruzouMeio && notificarPonto()
+        })
+    }
+}
+
+const barreiras = new Barreiras(500, 800, 250, 400)
+barreiras.pares.forEach(par => screen.appendChild(par.elem))
+
+setInterval(() => {
+    barreiras.animar()
+}, 20)
