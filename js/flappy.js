@@ -112,6 +112,34 @@ function Progresso() {
     this.atualizaPontos(0)
 }
 
+function sobreposicao(elemA, elemB) {
+    const a = elemA.getBoundingClientReact()
+    const b = elemB.getBoundingClientReact()
+
+    const horizontal = a.left + a.width >= b.left
+        && b.left + b.width >= a.left
+    const vertical = a.top + a.height >= b.top
+        && b.top + b.width >= a.top
+    
+    return horizontal && vertical
+}
+
+function colidiu(passaro, barreiras) {
+    let colidiu = false
+
+    barreiras.pares.forEach(par => {
+        if(!colidiu) {
+            const superior = par.superior.elem
+            const inferior = par.inferior.elem
+
+            colidiu = sobreposicao(passaro.elem, superior
+                || sobreposicao(passaro.elem, inferior))
+        }
+    })
+
+    return colidiu
+}
+
 function Game() {
     let pontos = 0
 
@@ -133,6 +161,10 @@ function Game() {
         const timer = setInterval(() => {
             barreiras.animar()
             passaro.animar()
+
+            if(colidiu(passaro, barreiras)) {
+                clearInterval(timer)
+            }
         }, 20)
     }
 }
