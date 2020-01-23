@@ -132,10 +132,8 @@ function colidiu(passaro, barreiras) {
             const superior = par.superior.elem
             const inferior = par.inferior.elem
 
-            console.log(inferior.getBoundingClientRect())
-
-            colidiu = sobreposicao(passaro.elem, superior
-                || sobreposicao(passaro.elem, inferior))
+            colidiu = sobreposicao(passaro.elem, superior)
+                || sobreposicao(passaro.elem, inferior)
         }
     })
 
